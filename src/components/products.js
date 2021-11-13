@@ -1,30 +1,44 @@
 import { Header } from "../styles/sharedstyles";
 import Product from "./product";
+import Menu from "./menu";
 import { IoList, IoCart } from "react-icons/io5";
 import styled from "styled-components";
 import { useState, useEffect } from "react";
-import { getProducts } from "../services/api.services";
+import { getProducts, getCategoryProducts } from "../services/api.services";
+import FilterContext from "../contexts/filterContext";
 
 export default function Products(){
     const [productsList, setProductsList] = useState([]);
+    const [menuState, setMenuState] = useState('closed');
+    const [filter, setFilter] = useState('all');
 
     useEffect(() => {
-        getProducts().then((resp) => {
-            setProductsList([...resp.data])
-        })
-    }, []);
+        if(filter === 'all'){
+            getProducts().then((resp) => {
+                setProductsList([...resp.data])
+            })
+        }else{
+            getCategoryProducts(filter).then((resp) => {
+                setProductsList([...resp.data])
+            })
+        }
+    }, [filter]);
 
     return(
-        <Container>
-            <Head>
-                <IoList className='icon'/>
-                <h1>DrivenShoes</h1>
-                <IoCart className='icon'onClick={() => {console.log(productsList)}} />
-            </Head>
-            <ProductsContainer>
-                {productsList.map((element) =>  <Product element={element} />)}
-            </ProductsContainer>
-        </Container>
+        <FilterContext.Provider value={{setFilter, filter}}>
+            <Menu state={menuState} />
+            <Container>
+                <Head>
+                    <IoList className='icon' onClick={() => setMenuState('open')} />
+                    <h1>DrivenShoes</h1>
+                    <IoCart className='icon' />
+                </Head>
+                <ProductsContainer onClick={() => setMenuState('closed')} >
+                    {!!productsList[0] ? productsList.map((element) =>  <Product element={element} key={element.id} />) 
+                    : <p>Loading...</p>}
+                </ProductsContainer>
+            </Container>
+        </FilterContext.Provider>
     );
 }
 
@@ -36,6 +50,7 @@ const Head = styled(Header)`
     left: 0;
     top: 0;
     z-index: 1;
+    color: black;
 
     .icon{
         margin: 0 15px;
@@ -48,6 +63,7 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    color: white;
 `
 
 const ProductsContainer = styled.div`
