@@ -1,5 +1,5 @@
 
-import { Container,Header,StyledButton,StyledInput } from "../styles/sharedstyles"
+import { Container,Header,StyledButton,StyledInput } from "../styles/sharedstyles";
 import {AiOutlineArrowLeft} from 'react-icons/ai';
 export default function Register(){
     return(
