@@ -2,12 +2,14 @@ import styled from "styled-components";
 import { IoCheckbox, IoPerson } from "react-icons/io5";
 import { getCategories } from "../services/api.services";
 import { useState, useEffect, useContext } from "react";
+import { useNavigate } from 'react-router-dom';
 import Category from "./category";
 import FilterContext from "../contexts/filterContext";
 
 export default function Menu({state}){
     const [categories, setCategories] = useState([]);
     const {setFilter, filter} = useContext(FilterContext);
+    const navigate = useNavigate();
 
     useEffect(() => {
         getCategories().then((resp) => {
@@ -17,7 +19,7 @@ export default function Menu({state}){
 
     return(
         <Container state={state}>
-            <LoginButton>
+            <LoginButton onClick={() => navigate('/sign-in')}>
                 <IoPerson />
                 <div>
                     <p className='login'>Faça seu login</p>
