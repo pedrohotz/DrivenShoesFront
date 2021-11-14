@@ -7,6 +7,7 @@ width: 100vw;
 height: 100vh;
 display: flex;
 flex-direction: column;
+background-color: white;
     .inputs{
         height: 80vh;
         justify-content: center;

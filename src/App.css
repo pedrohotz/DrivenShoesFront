@@ -25,6 +25,8 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
+	background-color: #181820;
+	font-family: 'Montserrat',sans-serif;
 }
 ol, ul {
 	list-style: none;
@@ -49,3 +51,7 @@ input::-webkit-inner-spin-button {
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+*{
+	box-sizing: border-box;
+}
