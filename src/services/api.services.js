@@ -14,8 +14,13 @@ function getCategoryProducts(filter) {
     return axios.post(`${URL}category-products`, {name: filter});
 }
 
+function submitRegister(body){
+    return axios.post(`${URL}sign-up`,body);
+}
+
 export{
     getProducts,
     getCategories,
     getCategoryProducts,
+    submitRegister,
 }
