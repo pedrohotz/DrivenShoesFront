@@ -57,22 +57,26 @@ const Container = styled.div`
     color: white;
     width: 90%;
     height: 30vh;
-    border: 5px solid #8D898A;
+    border: 2px solid #262525;
+    border-radius: 5px;
     margin-bottom: 35px;
     display: flex;
+    align-items: center;
+    padding: 2px;
 `
 
 const PicContainer = styled.div`
     width: 58%;
-    height: 100%;
+    height: 98%;
     background-color: white;
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: 5px;
 
     img{
         width: 90%;
-        max-height: 100%
+        max-height: 90%;
     }
 `
 

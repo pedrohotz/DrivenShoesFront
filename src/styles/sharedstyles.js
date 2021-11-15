@@ -44,6 +44,7 @@ align-items: center;
 
 const StyledInput = styled.input`
     margin-bottom: 30px;
+    padding: 10px;
     width: 80vw;
     height: 40px;
     border-radius: 30px;
@@ -56,7 +57,6 @@ const StyledInput = styled.input`
         font-size: 20px;
         color: #000000;
         font-family: 'Montserrat',sans-serif;
-        padding: 10px;
     
     }
 ` 

@@ -5,12 +5,13 @@ import { useState, useEffect, useContext } from "react";
 import { useNavigate } from 'react-router-dom';
 import Category from "./category";
 import FilterContext from "../contexts/filterContext";
+import UserContext from "../contexts/usercontext";
 
 export default function Menu({state}){
     const [categories, setCategories] = useState([]);
     const {setFilter, filter} = useContext(FilterContext);
     const navigate = useNavigate();
-
+    const {user} = useContext(UserContext);
     useEffect(() => {
         getCategories().then((resp) => {
             setCategories([...resp.data])
@@ -21,10 +22,11 @@ export default function Menu({state}){
         <Container state={state}>
             <LoginButton onClick={() => navigate('/sign-in')}>
                 <IoPerson />
+                {user ? <div><p className="login">Olá, {user.name}</p> </div> :
                 <div>
                     <p className='login'>Faça seu login</p>
                     <p className='cadastro'>ou cadastre-se</p>
-                </div>
+                </div> } 
             </LoginButton>
             <Options>
                 <MyContainer>
