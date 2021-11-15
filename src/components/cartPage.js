@@ -3,13 +3,12 @@ import { IoArrowBackOutline } from "react-icons/io5";
 import { Header } from "../styles/sharedstyles";
 import { useNavigate } from "react-router-dom";
 import CartProduct from "./cartProduct.js";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import CartContext from "../contexts/cartContext.js";
 import Swal from 'sweetalert2';
 
 export default function CartPage(){
     
-    const [totalPrice, setTotalPrice] = useState(0);
     const {cartProducts, setCartProducts} = useContext(CartContext);
     const navigate = useNavigate();
     
@@ -34,8 +33,26 @@ export default function CartPage(){
         }
     }
 
-    console.log(cartProducts)
+    function deleteProductFromCart(deletedProduct){
+        let filteredProducts = cartProducts.filter((restProduct) => {
+            return (restProduct.id !== deletedProduct.id);
+        })
+        setCartProducts([...filteredProducts]);
+    }
 
+    let parcialValue = 0;
+
+    for(let i = 0; i < cartProducts.length; i++){
+        parcialValue = parcialValue + Number(cartProducts[i].qtd) * Number(cartProducts[i].price);
+    }
+
+    function finishOrder(){
+        Swal.fire('Compra finalizada com sucesso!');
+        setCartProducts({});
+        navigate('/');
+    }
+
+    console.log(cartProducts)
 
     return (
         <ConteinerCart>
@@ -47,16 +64,16 @@ export default function CartPage(){
                 { cartProducts.length === 0 ?
                     <h1>Você ainda não adicionou nenhum produto ao carrinho, volte para a página inicial!</h1>
                     :
-                    cartProducts.map((product, index) => <CartProduct key={index} product={product} updateQtd={updateQtd}/>)
+                    cartProducts.map((product, index) => <CartProduct key={index} product={product} updateQtd={updateQtd} deleteProduct={deleteProductFromCart}/>)
                 }
                 
             </Content>
             <Bottom>
                 <div>
                     <h1>Total</h1>
-                    <h1>R${totalPrice}</h1>
+                    <h1>{parcialValue.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</h1>
                 </div>
-                <button>Finalizar Compra</button>
+                <button onClick={finishOrder}>Finalizar Compra</button>
             </Bottom>
             
         </ConteinerCart>
@@ -108,6 +125,7 @@ const Bottom = styled.div`
         justify-content: space-around;
         h1{
             font-size: 20px;
+            font-weight: bold;
         }
 
     }

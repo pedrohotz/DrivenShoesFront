@@ -1,8 +1,9 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { BsTrash } from 'react-icons/bs'
+import { BsTrash } from 'react-icons/bs';
+import swal from 'sweetalert';
 
-export default function CartProduct({product, updateQtd}){
+export default function CartProduct({product, updateQtd, deleteProduct}){
     
     const [qtd, setQtd] = useState(product.qtd);
     let value = qtd*product.price;
@@ -10,6 +11,23 @@ export default function CartProduct({product, updateQtd}){
     function changeQtd(e){
         e.preventDefault();
         updateQtd(product, qtd);
+    }
+
+    function removeProduct(){
+        swal({
+            title: "Tem certeza que deseja excluir o produto?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+          })
+          .then((willDelete) => {
+            if (willDelete) {
+              swal("Produto excluído com sucesso", {
+                icon: "success",
+              });
+              deleteProduct(product);
+            }
+          });
     }
 
     return (
@@ -31,7 +49,7 @@ export default function CartProduct({product, updateQtd}){
                
             </Right>
             <Icone>
-                <BsTrash color='#eb4034'/>
+                <BsTrash onClick={removeProduct} color='#eb4034'/>
             </Icone>
         </Conteiner>
     );
