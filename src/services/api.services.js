@@ -18,9 +18,14 @@ function submitRegister(body){
     return axios.post(`${URL}sign-up`,body);
 }
 
+function submitLogin(body){
+    return axios.post(`${URL}sign-in`,body);
+}
+
 export{
     getProducts,
     getCategories,
     getCategoryProducts,
     submitRegister,
+    submitLogin,
 }

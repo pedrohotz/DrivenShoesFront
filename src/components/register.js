@@ -100,7 +100,7 @@ export default function Register(){
                     <StyledInput placeholder="confirme a senha" type="password" value={cPassword} onChange={(e) => setcPassword(e.target.value)} required />
                     <StyledButton type="submit">Fazer Registro</StyledButton>
                 </form>
-                <Link to="/sing-in" style={{textDecoration:"none"}}><h2>ou fazer login</h2></Link>
+                <Link to="/sign-in" style={{textDecoration:"none"}}><h2>ou fazer login</h2></Link>
             </div>
         </Container>
     )
