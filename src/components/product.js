@@ -1,17 +1,22 @@
+import { useContext } from "react";
 import styled from "styled-components";
+import CartContext from "../contexts/cartContext.js";
 
 export default function Product({element}){
+
+    const {cartProducts, setCartProducts} = useContext(CartContext);
+
     return(
-       <Container>
-            <PicContainer>
-                <img src={element.url_image} alt=''/> 
-            </PicContainer>
-            <InfoContainer>
-                <p>{element.name.substr(0,20)}...</p>
-                <p>R$ {element.price}</p>
-                <Button>Adicionar ao carrinho</Button>
+        <Container>
+                <PicContainer>
+                    <img src={element.url_image} alt=''/> 
+                </PicContainer>
+                <InfoContainer>
+                    <p>{element.name.substr(0,20)}...</p>
+                    <p>R$ {element.price}</p>
+                <Button onClick={() => setCartProducts([...cartProducts, element])}>Adicionar ao carrinho</Button>
             </InfoContainer>
-       </Container>
+        </Container>
     );
 }
 

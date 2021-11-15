@@ -4,6 +4,7 @@ import Menu from "./menu";
 import { IoList, IoCart } from "react-icons/io5";
 import styled from "styled-components";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { getProducts, getCategoryProducts } from "../services/api.services";
 import FilterContext from "../contexts/filterContext";
 
@@ -11,6 +12,7 @@ export default function Products(){
     const [productsList, setProductsList] = useState([]);
     const [menuState, setMenuState] = useState('closed');
     const [filter, setFilter] = useState('all');
+    const navigate = useNavigate();
 
     useEffect(() => {
         if(filter === 'all'){
@@ -24,6 +26,7 @@ export default function Products(){
         }
     }, [filter]);
 
+
     return(
         <FilterContext.Provider value={{setFilter, filter}}>
             <Menu state={menuState} />
@@ -31,7 +34,7 @@ export default function Products(){
                 <Head>
                     <IoList className='icon' onClick={() => setMenuState('open')} />
                     <h1>DrivenShoes</h1>
-                    <IoCart className='icon' />
+                    <IoCart className='icon' onClick={() => navigate('/cart')}/>
                 </Head>
                 <ProductsContainer onClick={() => setMenuState('closed')} >
                     {!!productsList[0] ? productsList.map((element) =>  <Product element={element} key={element.id} />) 
