@@ -52,8 +52,6 @@ export default function CartPage(){
         navigate('/');
     }
 
-    console.log(cartProducts)
-
     return (
         <ConteinerCart>
             <Head>
