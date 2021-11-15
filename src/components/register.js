@@ -89,7 +89,7 @@ export default function Register(){
     return(
         <Container>
             <Header>
-            <AiOutlineArrowLeft style={{fontSize:"40px",marginTop:"4px",marginLeft:"10px"}}/>
+            <AiOutlineArrowLeft style={{fontSize:"40px",marginTop:"4px",marginLeft:"10px"}} onClick={()=> {navigate("/")}}/>
             <h1 className="register">criar seu cadastro</h1>
             </Header>
             <div className="inputs">

@@ -35,7 +35,7 @@ export default function Login(){
     return(
         <Container>
             <Header>
-            <AiOutlineArrowLeft style={{fontSize:"40px",marginTop:"4px",marginLeft:"10px"}}/>
+            <AiOutlineArrowLeft style={{fontSize:"40px",marginTop:"4px",marginLeft:"10px"}} onClick={()=> {navigate("/")}}/>
             <h1 className="register">fazer login</h1>
             </Header>
             <div className="inputs">
