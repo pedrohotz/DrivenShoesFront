@@ -3,14 +3,40 @@ import { IoArrowBackOutline } from "react-icons/io5";
 import { Header } from "../styles/sharedstyles";
 import { useNavigate } from "react-router-dom";
 import CartProduct from "./cartProduct.js";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import CartContext from "../contexts/cartContext.js";
+import Swal from 'sweetalert2';
 
 export default function CartPage(){
     
+    const [totalPrice, setTotalPrice] = useState(0);
     const {cartProducts, setCartProducts} = useContext(CartContext);
-    console.log(cartProducts)
     const navigate = useNavigate();
+    
+    function updateQtd(selectedProduct, qtd){
+        let newCartProduct = {};
+        for(let i = 0; i < cartProducts.length; i++){
+            if(cartProducts[i].id === selectedProduct.id){
+                newCartProduct = cartProducts[i]
+            }
+        }
+        newCartProduct.qtd = qtd;
+        let filteredProducts = cartProducts.filter((restProduct) => {
+            return (restProduct.id !== selectedProduct.id);
+        })
+        if(qtd === 0){
+            setCartProducts([...filteredProducts]);
+        }else if(qtd < 0){
+            Swal.fire('Não é possível adicionar valores negativos, produto removido do carrinho!');
+            setCartProducts([...filteredProducts]);
+        }else{
+            setCartProducts([...filteredProducts, newCartProduct]);
+        }
+    }
+
+    console.log(cartProducts)
+
+
     return (
         <ConteinerCart>
             <Head>
@@ -18,17 +44,17 @@ export default function CartPage(){
                 <h1>Carrinho</h1>
             </Head>
             <Content>
-                <CartProduct/>
-                <CartProduct/>
-                <CartProduct/>
-                <CartProduct/>
-                <CartProduct/>
-                <CartProduct/>
+                { cartProducts.length === 0 ?
+                    <h1>Você ainda não adicionou nenhum produto ao carrinho, volte para a página inicial!</h1>
+                    :
+                    cartProducts.map((product, index) => <CartProduct key={index} product={product} updateQtd={updateQtd}/>)
+                }
+                
             </Content>
             <Bottom>
                 <div>
                     <h1>Total</h1>
-                    <h1>R$24,90</h1>
+                    <h1>R${totalPrice}</h1>
                 </div>
                 <button>Finalizar Compra</button>
             </Bottom>
@@ -70,14 +96,14 @@ const Bottom = styled.div`
     bottom: 0;
     left: 0;
     background-color: #fa4098;
-    width: 100vw;
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
 
     div{
-        width: 100vw;
+        width: 100%;
         display: flex;
         justify-content: space-around;
         h1{
@@ -88,7 +114,7 @@ const Bottom = styled.div`
     
     button{
         background-color: #fff;
-        width: 70vw;
+        width: 70%;
         font-size: 20px;
         color: #000;
         border: none;

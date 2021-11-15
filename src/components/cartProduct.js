@@ -1,16 +1,38 @@
+import { useState } from "react";
 import styled from "styled-components";
+import { BsTrash } from 'react-icons/bs'
 
-export default function CartProduct(){
+export default function CartProduct({product, updateQtd}){
+    
+    const [qtd, setQtd] = useState(product.qtd);
+    let value = qtd*product.price;
+    
+    function changeQtd(e){
+        e.preventDefault();
+        updateQtd(product, qtd);
+    }
+
     return (
         <Conteiner>
             <Left>
-                <img src='https://fieroshop.vteximg.com.br/arquivos/ids/161238-1400-1400/sapato-masculino-forrado.jpg?v=636670954190130000' alt=''/>
+                <img src={product.url_image} alt=''/>
             </Left>
             <Right>
-                <p>Sapato show de bola</p>
-                <p>QTD: <button>5</button></p>
-                <p>Total</p>
+                <p>{product.name}</p>
+                <h1>{product.description}</h1>
+                <div>
+                    <h2>QTD: </h2>
+                    <form onSubmit={changeQtd}>
+                        <input type='number' min="1" max='10' step="1" placeholder='qtd' value={qtd} onChange={e => setQtd(e.target.value)}/>
+                        <input type='submit'/>
+                    </form>
+                </div>
+                <h2>Total: {value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</h2>
+               
             </Right>
+            <Icone>
+                <BsTrash color='#eb4034'/>
+            </Icone>
         </Conteiner>
     );
 }
@@ -43,5 +65,57 @@ const Right = styled.div`
     
     p{
         color: #fff;
+        white-space: nowrap;
+        width: 80%;
+        overflow: hidden;
+        height: 20px; 
+        text-overflow: ellipsis;
+    }
+
+    h1{
+        color: #fff;
+        width: 100%;
+        overflow: hidden;
+        height: 60px;
+        font-size: 15px;
+    }
+    
+    div{
+        display: flex;
+        margin-top: 5px;
+        align-items: center
+        justify-content: center;
+
+        input{
+            margin-top: 5px;
+            width: 50px;
+            height: 25px;
+            margin-left: 5px;
+
+            ::placeholder{
+                font-size: 15px;
+                color: #fff;
+            }
+
+        }
+        h2{
+            font-size: 15px;
+            color: #fff;
+        }
+    }
+
+    h2{
+        margin-top: 10px;
+        font-size: 15px;
+        color: #fff;
     }
 `;
+
+const Icone = styled.div`
+    position: absolute;
+    right: 2%;
+
+    ::hover{
+        cursor: pointer;
+    }
+`

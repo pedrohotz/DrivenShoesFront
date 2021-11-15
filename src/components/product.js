@@ -1,10 +1,43 @@
 import { useContext } from "react";
 import styled from "styled-components";
 import CartContext from "../contexts/cartContext.js";
+import Swal from 'sweetalert2';
 
 export default function Product({element}){
 
     const {cartProducts, setCartProducts} = useContext(CartContext);
+
+    function addToCart(){
+        
+        if(cartProducts.length === 0){
+            let cartProduct = element;
+            cartProduct.qtd = 1;
+            setCartProducts([...cartProducts, cartProduct]);
+            Swal.fire('Produto adicionado!');
+        }else{
+            let newCartProduct = {};
+            for(let i = 0; i < cartProducts.length; i++){
+                if(cartProducts[i].id === element.id){
+                    newCartProduct = cartProducts[i]
+                }
+            }
+            if(isNaN(newCartProduct.qtd)){
+                let cartProduct = element;
+                cartProduct.qtd = 1;
+                setCartProducts([...cartProducts, cartProduct]);
+                Swal.fire('Produto adicionado!');
+            }else{
+                newCartProduct.qtd = newCartProduct.qtd + 1;
+                let filteredProducts = cartProducts.filter((product) => {
+                    return (product.id !== element.id);
+                })
+                setCartProducts([...filteredProducts, newCartProduct]);
+                Swal.fire('Produto adicionado!'); 
+            }
+                       
+        }
+        
+    }
 
     return(
         <Container>
@@ -14,7 +47,7 @@ export default function Product({element}){
                 <InfoContainer>
                     <p>{element.name.substr(0,20)}...</p>
                     <p>R$ {element.price}</p>
-                <Button onClick={() => setCartProducts([...cartProducts, element])}>Adicionar ao carrinho</Button>
+                <Button onClick={() => addToCart()}>Adicionar ao carrinho</Button>
             </InfoContainer>
         </Container>
     );
