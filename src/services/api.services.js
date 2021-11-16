@@ -30,6 +30,10 @@ function postCard(config, body){
     return axios.post(`${URL}payment`, body, config);
 }
 
+function postCheckout(config, body){
+    return axios.post(`${URL}checkout`, body, config);
+}
+
 export{
     getProducts,
     getCategories,
@@ -38,4 +42,5 @@ export{
     submitLogin,
     getPaymentData,
     postCard,
+    postCheckout,
 }

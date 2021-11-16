@@ -7,11 +7,13 @@ import UserContext from '../contexts/usercontext.js';
 import { getPaymentData } from '../services/api.services.js';
 import CartContext from "../contexts/cartContext.js";
 import Card from "./card.js";
+import { postCheckout } from "../services/api.services.js";
+import Swal from "sweetalert2";
 
 export default function PaymentPage(){
     
     const {user} = useContext(UserContext);
-    const {cartProducts} = useContext(CartContext);
+    const {cartProducts, setCartProducts} = useContext(CartContext);
     const navigate = useNavigate();
     const [text, setText] = useState('Carregando...');
     const [cards, setCards] = useState([]);
@@ -36,7 +38,29 @@ export default function PaymentPage(){
         parcialValue = parcialValue + Number(cartProducts[i].qtd) * Number(cartProducts[i].price);
     }
 
-
+    function finishOrder(){
+        let products = [];
+        let parcialBody = {}
+        for(let i = 0; i < cartProducts.length; i++){
+            const product_id = cartProducts[i].id;
+            const quantity = cartProducts[i].qtd
+            parcialBody = {product_id, quantity};
+            products.push(parcialBody);
+        }
+        const body = { products };
+        const config = {
+            headers: {
+                "Authorization": `Bearer ${user.token}`
+            }
+        };
+        postCheckout(config, body)
+            .then(() => {
+                Swal.fire('Compra finalizada com sucesso!');
+                navigate('/');
+                setCartProducts([]);
+            })
+            .catch((error) => console.log(error));
+    }
     
 
     return (
@@ -63,7 +87,7 @@ export default function PaymentPage(){
                     <h1>Total</h1>
                     <h1>{parcialValue.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</h1>
                 </div>
-                <button>Finalizar Compra</button>
+                <button onClick={finishOrder}>Finalizar Compra</button>
             </Bottom>
         </ConteinerPayment>
     );
