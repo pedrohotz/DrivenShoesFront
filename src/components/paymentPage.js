@@ -131,9 +131,9 @@ const Content = styled.div`
         border: none;
         font-family: 'Montserrat',sans-serif;
         height: 30px;
-        width: 40%;
+        width: 50%;
         border-radius: 5px;
-        margin-left: 30%;
+        margin-left: 25%;
         margin-top: 20px;
     }
 `
