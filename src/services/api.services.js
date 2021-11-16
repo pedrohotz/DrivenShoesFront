@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const URL = "http://localhost:4000/";
+const URL = "https://drivenshoes.herokuapp.com/";
 
 function getProducts() {
     return axios.get(`${URL}products`);
