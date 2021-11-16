@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { IoCheckbox, IoPerson } from "react-icons/io5";
+import { IoPerson } from "react-icons/io5";
 import { getCategories } from "../services/api.services";
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from 'react-router-dom';
@@ -29,10 +29,6 @@ export default function Menu({state}){
                 </div> } 
             </LoginButton>
             <Options>
-                <MyContainer>
-                    <IoCheckbox />
-                    <p>Meus Pedidos</p>
-                </MyContainer>
                 <CategoriesContainer >
                     <p className='title'>Categorias:</p>
                     <Todos onClick={() => setFilter('all')} filter={filter}>todos</Todos>
@@ -82,23 +78,11 @@ const Options = styled.div`
     background-color: white;
 `
 
-const MyContainer = styled.div`
-    display: flex;
-    font-size: 30px;
-    align-items: center;
-    padding: 18px;
-    margin-bottom: 10px;
-
-    p{
-        font-size: 18px;
-        margin-left: 10px;
-    }
-`
-
 const CategoriesContainer = styled.div`
     margin-left: 15px;
-
+    padding: 10px;
     .title{
+        font-weight: bold;
         margin-bottom: 10px;
         font-size: 18px;
     }
