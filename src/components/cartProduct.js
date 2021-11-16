@@ -37,7 +37,6 @@ export default function CartProduct({product, updateQtd, deleteProduct}){
             </Left>
             <Right>
                 <p>{product.name}</p>
-                <h1>{product.description}</h1>
                 <div>
                     <h2>QTD: </h2>
                     <form onSubmit={changeQtd}>
@@ -45,7 +44,7 @@ export default function CartProduct({product, updateQtd, deleteProduct}){
                         <input type='submit'/>
                     </form>
                 </div>
-                <h2>Total: {value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</h2>
+                <h3>Total: {value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</h3>
                
             </Right>
             <Icone>
@@ -101,8 +100,10 @@ const Right = styled.div`
     div{
         display: flex;
         margin-top: 5px;
-        align-items: center
+        align-items: center;
         justify-content: center;
+        position: absolute;
+        bottom: 40px;
 
         input{
             margin-top: 5px;
@@ -122,10 +123,12 @@ const Right = styled.div`
         }
     }
 
-    h2{
+    h3{
         margin-top: 10px;
         font-size: 15px;
         color: #fff;
+        position: absolute;
+        bottom: 15px;
     }
 `;
 

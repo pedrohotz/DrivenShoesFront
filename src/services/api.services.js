@@ -22,10 +22,25 @@ function submitLogin(body){
     return axios.post(`${URL}sign-in`,body);
 }
 
+function getPaymentData(config) {
+    return axios.get(`${URL}payment`, config);
+}
+
+function postCard(config, body){
+    return axios.post(`${URL}payment`, body, config);
+}
+
+function postCheckout(config, body){
+    return axios.post(`${URL}checkout`, body, config);
+}
+
 export{
     getProducts,
     getCategories,
     getCategoryProducts,
     submitRegister,
     submitLogin,
+    getPaymentData,
+    postCard,
+    postCheckout,
 }

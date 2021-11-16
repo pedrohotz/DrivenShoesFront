@@ -6,10 +6,12 @@ import CartProduct from "./cartProduct.js";
 import { useContext } from "react";
 import CartContext from "../contexts/cartContext.js";
 import Swal from 'sweetalert2';
+import UserContext from "../contexts/usercontext";
 
 export default function CartPage(){
     
     const {cartProducts, setCartProducts} = useContext(CartContext);
+    const {user} = useContext(UserContext);
     const navigate = useNavigate();
     
     function updateQtd(selectedProduct, qtd){
@@ -47,9 +49,16 @@ export default function CartPage(){
     }
 
     function finishOrder(){
-        Swal.fire('Compra finalizada com sucesso!');
-        setCartProducts({});
-        navigate('/');
+        if(user === undefined){
+            Swal.fire('Você ainda não está logado! Faça login para continuar a compra...');
+            navigate('/sign-in');
+        }else{
+            if(cartProducts.length === 0){
+                Swal.fire('Não é possível prosseguir para finalizar a compra. Não há produtos no carrinho.');
+            }else{
+                navigate('/payment');
+            }
+        } 
     }
 
     return (
@@ -71,7 +80,7 @@ export default function CartPage(){
                     <h1>Total</h1>
                     <h1>{parcialValue.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</h1>
                 </div>
-                <button onClick={finishOrder}>Finalizar Compra</button>
+                <button onClick={finishOrder}>Prosseguir Compra</button>
             </Bottom>
             
         </ConteinerCart>
@@ -86,7 +95,7 @@ const ConteinerCart = styled.div `
 `;
 
 const Head = styled(Header)`
-    font-size: 30px;
+    font-size: 20px;
     font-weight: bold;
     position: fixed;
     left: 0;
@@ -102,6 +111,13 @@ const Head = styled(Header)`
 
 const Content = styled.div`
     margin: 90px 0 110px 0;
+
+    h1{
+        color: #fff;
+        font-size: 20px;
+        margin-top: 15px;
+        margin-left: 10px;
+    }
 `
 
 const Bottom = styled.div`
