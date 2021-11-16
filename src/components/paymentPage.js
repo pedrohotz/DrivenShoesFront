@@ -6,13 +6,16 @@ import { useContext, useEffect, useState } from "react";
 import UserContext from '../contexts/usercontext.js';
 import { getPaymentData } from '../services/api.services.js';
 import CartContext from "../contexts/cartContext.js";
+import Card from "./card.js";
 
 export default function PaymentPage(){
     
     const {user} = useContext(UserContext);
     const {cartProducts} = useContext(CartContext);
     const navigate = useNavigate();
-    const [text, setText] = useState('Carregando...')
+    const [text, setText] = useState('Carregando...');
+    const [cards, setCards] = useState([]);
+    const [selected, setSelected] = useState({});
 
     useEffect(() => {
         const config = {
@@ -21,8 +24,10 @@ export default function PaymentPage(){
             }
         };
         getPaymentData(config)
-            .then((res) => console.log(res.data))
-            .catch(() => setText('Você ainda não possui cartões cadastrados, por favor, cadastre um cartão'))
+            .then((res) => {
+                setCards(res.data);
+            })
+            .catch(() => setText('Você ainda não possui cartões cadastrados, por favor, cadastre um cartão'));
     }, [user.token]);
 
     let parcialValue = 0;
@@ -32,6 +37,8 @@ export default function PaymentPage(){
     }
 
 
+    
+
     return (
         <ConteinerPayment>
             <Head>
@@ -39,7 +46,16 @@ export default function PaymentPage(){
                 <h1>Pagamento</h1>
             </Head>
             <Content>
-                <h1>{text}</h1>
+                {cards.length === 0 ? 
+                    (
+                        <h1>{text}</h1>
+                    )
+                    :
+                    (
+                        cards.map((card, index) => <Card key={index} card={card} selected={selected} setSelected={setSelected}/>)
+                    )
+                }
+                
                 <button onClick={() => navigate('/addCard')}>Adicionar cartão</button>
             </Content>
             <Bottom>
